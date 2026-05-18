@@ -1,109 +1,109 @@
 ---
 name: tdd
-description: Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions "red-green-refactor", wants integration tests, or asks for test-first development.
+description: 带有红-绿-重构循环的测试驱动开发。当用户想要使用 TDD 构建功能或修复 bug、提到"红-绿-重构"、想要集成测试或要求测试优先开发时使用。
 ---
 
-# Test-Driven Development
+# 测试驱动开发
 
-## Philosophy
+## 理念
 
-**Core principle**: Tests should verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't.
+**核心原则**：测试应通过公共接口验证行为，而非实现细节。代码可以完全改变；测试不应该。
 
-**Good tests** are integration-style: they exercise real code paths through public APIs. They describe _what_ the system does, not _how_ it does it. A good test reads like a specification - "user can checkout with valid cart" tells you exactly what capability exists. These tests survive refactors because they don't care about internal structure.
+**好的测试**是集成风格的：它们通过公共 API 执行真实的代码路径。它们描述系统做*什么*，而非*如何*做。一个好的测试读起来像规格说明——"用户可以使用有效购物车结账"准确地告诉你存在什么功能。这些测试能在重构中存活，因为它们不关心内部结构。
 
-**Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify through external means (like querying a database directly instead of using the interface). The warning sign: your test breaks when you refactor, but behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not behavior.
+**坏的测试**与实现耦合。它们模拟内部协作者、测试私有方法或通过外部手段验证（如直接查询数据库而非使用接口）。警告信号：你的测试在重构时失败了，但行为没有改变。如果你重命名一个内部函数导致测试失败，那些测试是在测试实现，而非行为。
 
-See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+参见 [tests.md](tests.md) 的示例和 [mocking.md](mocking.md) 的模拟指南。
 
-## Anti-Pattern: Horizontal Slices
+## 反模式：水平切片
 
-**DO NOT write all tests first, then all implementation.** This is "horizontal slicing" - treating RED as "write all tests" and GREEN as "write all code."
+**不要先写所有测试，然后写所有实现。** 这是"水平切片"——将 RED 视为"写所有测试"，将 GREEN 视为"写所有代码"。
 
-This produces **crap tests**:
+这会产生**烂测试**：
 
-- Tests written in bulk test _imagined_ behavior, not _actual_ behavior
-- You end up testing the _shape_ of things (data structures, function signatures) rather than user-facing behavior
-- Tests become insensitive to real changes - they pass when behavior breaks, fail when behavior is fine
-- You outrun your headlights, committing to test structure before understanding the implementation
+- 批量写的测试测试的是*想象的*行为，而非*实际的*行为
+- 你最终测试的是事物的*形态*（数据结构、函数签名），而非面向用户的行为
+- 测试变得对真正的变更不敏感——行为出问题时它们通过，行为正常时它们失败
+- 你超出了自己的视野范围，在理解实现之前就确定了测试结构
 
-**Correct approach**: Vertical slices via tracer bullets. One test → one implementation → repeat. Each test responds to what you learned from the previous cycle. Because you just wrote the code, you know exactly what behavior matters and how to verify it.
+**正确方法**：通过曳光弹方式进行垂直切片。一个测试 → 一个实现 → 重复。每个测试响应你从上一个循环中学到的东西。因为你刚写完代码，你确切地知道什么行为重要以及如何验证它。
 
 ```
-WRONG (horizontal):
+错误（水平）：
   RED:   test1, test2, test3, test4, test5
   GREEN: impl1, impl2, impl3, impl4, impl5
 
-RIGHT (vertical):
+正确（垂直）：
   RED→GREEN: test1→impl1
   RED→GREEN: test2→impl2
   RED→GREEN: test3→impl3
   ...
 ```
 
-## Workflow
+## 工作流
 
-### 1. Planning
+### 1. 规划
 
-When exploring the codebase, use the project's domain glossary so that test names and interface vocabulary match the project's language, and respect ADRs in the area you're touching.
+在探索代码库时，使用项目的领域词汇表，使测试名称和接口词汇匹配项目的语言，并尊重你涉及领域的 ADR。
 
-Before writing any code:
+在写任何代码之前：
 
-- [ ] Confirm with user what interface changes are needed
-- [ ] Confirm with user which behaviors to test (prioritize)
-- [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
-- [ ] Design interfaces for [testability](interface-design.md)
-- [ ] List the behaviors to test (not implementation steps)
-- [ ] Get user approval on the plan
+- [ ] 与用户确认需要哪些接口变更
+- [ ] 与用户确认要测试哪些行为（确定优先级）
+- [ ] 识别[深模块](deep-modules.md)的机会（小接口、深实现）
+- [ ] 为[可测试性](interface-design.md)设计接口
+- [ ] 列出要测试的行为（而非实现步骤）
+- [ ] 获得用户对计划的批准
 
-Ask: "What should the public interface look like? Which behaviors are most important to test?"
+询问："公共接口应该是什么样子？哪些行为最需要测试？"
 
-**You can't test everything.** Confirm with the user exactly which behaviors matter most. Focus testing effort on critical paths and complex logic, not every possible edge case.
+**你无法测试一切。** 与用户确认哪些行为最重要。将测试工作集中在关键路径和复杂逻辑上，而非每个可能的边缘情况。
 
-### 2. Tracer Bullet
+### 2. 曳光弹
 
-Write ONE test that confirms ONE thing about the system:
-
-```
-RED:   Write test for first behavior → test fails
-GREEN: Write minimal code to pass → test passes
-```
-
-This is your tracer bullet - proves the path works end-to-end.
-
-### 3. Incremental Loop
-
-For each remaining behavior:
+写一个测试，确认系统的一个方面：
 
 ```
-RED:   Write next test → fails
-GREEN: Minimal code to pass → passes
+RED:   为第一个行为写测试 → 测试失败
+GREEN: 写最小化代码使其通过 → 测试通过
 ```
 
-Rules:
+这是你的曳光弹——证明路径端到端可行。
 
-- One test at a time
-- Only enough code to pass current test
-- Don't anticipate future tests
-- Keep tests focused on observable behavior
+### 3. 增量循环
 
-### 4. Refactor
-
-After all tests pass, look for [refactor candidates](refactoring.md):
-
-- [ ] Extract duplication
-- [ ] Deepen modules (move complexity behind simple interfaces)
-- [ ] Apply SOLID principles where natural
-- [ ] Consider what new code reveals about existing code
-- [ ] Run tests after each refactor step
-
-**Never refactor while RED.** Get to GREEN first.
-
-## Checklist Per Cycle
+对于每个剩余行为：
 
 ```
-[ ] Test describes behavior, not implementation
-[ ] Test uses public interface only
-[ ] Test would survive internal refactor
-[ ] Code is minimal for this test
-[ ] No speculative features added
+RED:   写下一个测试 → 失败
+GREEN: 最小化代码使其通过 → 通过
+```
+
+规则：
+
+- 一次一个测试
+- 只写足够通过当前测试的代码
+- 不要预判未来测试
+- 保持测试聚焦于可观察的行为
+
+### 4. 重构
+
+所有测试通过后，寻找[重构候选](refactoring.md)：
+
+- [ ] 提取重复
+- [ ] 深化模块（将复杂性移到简单接口后面）
+- [ ] 在自然处应用 SOLID 原则
+- [ ] 考虑新代码揭示了现有代码的什么信息
+- [ ] 每个重构步骤后运行测试
+
+**绝不要在 RED 状态下重构。** 先进入 GREEN。
+
+## 每周期检查清单
+
+```
+[ ] 测试描述的是行为，而非实现
+[ ] 测试仅使用公共接口
+[ ] 测试能在内部重构中存活
+[ ] 代码对此测试是最小化的
+[ ] 没有添加推测性功能
 ```

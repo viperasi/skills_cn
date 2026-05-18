@@ -1,76 +1,76 @@
 ---
 name: to-prd
-description: Turn the current conversation context into a PRD and publish it to the project issue tracker. Use when user wants to create a PRD from the current context.
+description: 将当前对话上下文转换为 PRD 并发布到项目问题跟踪器。当用户想要从当前上下文创建 PRD 时使用。
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.
+此技能获取当前对话上下文和代码库理解，并生成一个 PRD。不要面谈用户——只是综合你已经知道的内容。
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+问题跟踪器和分类标签词汇应该已经提供给你——如果没有，请运行 `/setup-matt-pocock-skills`。
 
-## Process
+## 流程
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
+1. 探索仓库以了解代码库的当前状态（如果尚未完成）。在整个 PRD 中使用项目的领域词汇表词汇，并尊重你涉及领域的任何 ADR。
 
-2. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
+2. 勾勒出为完成实现你将需要构建或修改的主要模块。积极寻找提取可以在隔离中测试的深模块的机会。
 
-A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable interface which rarely changes.
+深模块（相对于浅模块）是那些将大量功能封装在一个简单、可测试且很少变更的接口中的模块。
 
-Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
+与用户核对这些模块是否符合他们的期望。与用户核对他们希望为哪些模块编写测试。
 
-3. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. 使用以下模板编写 PRD，然后将其发布到项目问题跟踪器。应用 `ready-for-agent` 分类标签——不需要额外分类。
 
 <prd-template>
 
-## Problem Statement
+## 问题陈述
 
-The problem that the user is facing, from the user's perspective.
+用户面临的问题，从用户的角度描述。
 
-## Solution
+## 解决方案
 
-The solution to the problem, from the user's perspective.
+问题的解决方案，从用户的角度描述。
 
-## User Stories
+## 用户故事
 
-A LONG, numbered list of user stories. Each user story should be in the format of:
+一个长的、编号的用户故事列表。每个用户故事应采用以下格式：
 
-1. As an <actor>, I want a <feature>, so that <benefit>
+1. 作为<角色>，我想要<功能>，以便<好处>
 
 <user-story-example>
-1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
+1. 作为移动银行客户，我想要在我的账户上查看余额，以便更好地做出消费决策
 </user-story-example>
 
-This list of user stories should be extremely extensive and cover all aspects of the feature.
+此用户故事列表应该非常广泛，涵盖功能的所有方面。
 
-## Implementation Decisions
+## 实现决策
 
-A list of implementation decisions that were made. This can include:
+已做出的实现决策列表。可以包括：
 
-- The modules that will be built/modified
-- The interfaces of those modules that will be modified
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
+- 将要构建/修改的模块
+- 将要修改的那些模块的接口
+- 开发者的技术澄清
+- 架构决策
+- schema 变更
+- API 契约
+- 特定交互
 
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+不要包含特定文件路径或代码片段。它们可能很快就会过时。
 
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+例外：如果一个原型产生了一个比散文更精确编码决策的片段（状态机、reducer、schema、类型形态），在相关决策中内联它并简要提及它来自一个原型。修剪到决策丰富的部分——不是工作的演示，只是重要的部分。
 
-## Testing Decisions
+## 测试决策
 
-A list of testing decisions that were made. Include:
+已做出的测试决策列表。包括：
 
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
-- Prior art for the tests (i.e. similar types of tests in the codebase)
+- 什么是好测试的描述（只测试外部行为，而非实现细节）
+- 哪些模块将被测试
+- 测试的参考范例（即代码库中类似类型的测试）
 
-## Out of Scope
+## 不在范围内
 
-A description of the things that are out of scope for this PRD.
+一个关于此 PRD 不在范围内的内容描述。
 
-## Further Notes
+## 补充说明
 
-Any further notes about the feature.
+关于此功能的任何补充说明。
 
 </prd-template>

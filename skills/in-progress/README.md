@@ -1,8 +1,8 @@
-# In Progress
+# 进行中
 
-Skills that are still being developed. They're not ready to ship — expect rough edges, breaking changes, and abandoned experiments. They're excluded from the plugin and the top-level README until they graduate to a stable bucket.
+仍在开发中的技能。它们还没准备好发布——预计会有粗糙边缘、破坏性变更和被放弃的实验。在毕业到稳定的分类之前，它们被排除在插件和顶层 README 之外。
 
-- **[review](./review/SKILL.md)** — Review changes since a fixed point along two parallel axes: **Standards** (does the diff follow the repo's coding standards?) and **Spec** (does the diff faithfully implement the originating issue/PRD?).
-- **[writing-beats](./writing-beats/SKILL.md)** — Shape an article as a journey of beats, choose-your-own-adventure style. Pick a starting beat, write only that beat, then pivot to the next, until the article reaches a natural end.
-- **[writing-fragments](./writing-fragments/SKILL.md)** — Grilling session that mines you for fragments — heterogeneous nuggets of writing — and appends them to a single document as raw material for a future article.
-- **[writing-shape](./writing-shape/SKILL.md)** — Take a markdown file of raw material and shape it into an article paragraph by paragraph, arguing format choices at each step.
+- **[review](./review/SKILL.md)** — 沿两个平行轴线审查自固定点以来的变更：**标准**（差异是否遵循仓库的编码标准？）和**规格**（差异是否忠实地实现了原始 Issue/PRD？）。
+- **[writing-beats](./writing-beats/SKILL.md)** — 将文章塑造成一段节拍之旅，选择你自己的冒险风格。选择一个起始节拍，只写那个节拍，然后转向下一个，直到文章达到自然结尾。
+- **[writing-fragments](./writing-fragments/SKILL.md)** — 盘问会话，挖掘你的碎片——异质的写作金块——并将它们追加到单个文档中，作为未来文章的原材料。
+- **[writing-shape](./writing-shape/SKILL.md)** — 拿一个原始材料的 markdown 文件，逐段将其塑造成文章，每一步都论证格式选择。

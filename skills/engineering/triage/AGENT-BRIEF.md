@@ -1,168 +1,163 @@
-# Writing Agent Briefs
+# 编写智能体简报
 
-An agent brief is a structured comment posted on a GitHub issue when it moves to `ready-for-agent`. It is the authoritative specification that an AFK agent will work from. The original issue body and discussion are context — the agent brief is the contract.
+智能体简报是当 Issue 移动到 `ready-for-agent` 时在 GitHub Issue 上发布的结构化评论。它是 AFK 智能体将依据的权威规格。原始 Issue 正文和讨论是上下文——智能体简报是契约。
 
-## Principles
+## 原则
 
-### Durability over precision
+### 持久性优先于精确性
 
-The issue may sit in `ready-for-agent` for days or weeks. The codebase will change in the meantime. Write the brief so it stays useful even as files are renamed, moved, or refactored.
+Issue 可能在 `ready-for-agent` 中存留几天或几周。代码库在此期间会变化。编写简报使其即使在文件被重命名、移动或重构后仍然有用。
 
-- **Do** describe interfaces, types, and behavioral contracts
-- **Do** name specific types, function signatures, or config shapes that the agent should look for or modify
-- **Don't** reference file paths — they go stale
-- **Don't** reference line numbers
-- **Don't** assume the current implementation structure will remain the same
+- **要**描述接口、类型和行为契约
+- **要**命名智能体应寻找或修改的特定类型、函数签名或配置形态
+- **不要**引用文件路径——它们会过时
+- **不要**引用行号
+- **不要**假设当前实现结构将保持不变
 
-### Behavioral, not procedural
+### 行为性的，而非程序性的
 
-Describe **what** the system should do, not **how** to implement it. The agent will explore the codebase fresh and make its own implementation decisions.
+描述系统应做**什么**，而非**如何**实现它。智能体会重新探索代码库并做出自己的实现决策。
 
-- **Good:** "The `SkillConfig` type should accept an optional `schedule` field of type `CronExpression`"
-- **Bad:** "Open src/types/skill.ts and add a schedule field on line 42"
-- **Good:** "When a user runs `/triage` with no arguments, they should see a summary of issues needing attention"
-- **Bad:** "Add a switch statement in the main handler function"
+- **好：** "`SkillConfig` 类型应接受一个类型为 `CronExpression` 的可选 `schedule` 字段"
+- **坏：** "打开 src/types/skill.ts 并在第 42 行添加一个 schedule 字段"
+- **好：** "当用户不带参数运行 `/triage` 时，他们应看到需要关注的 Issue 摘要"
+- **坏：** "在主处理函数中添加一个 switch 语句"
 
-### Complete acceptance criteria
+### 完整的验收标准
 
-The agent needs to know when it's done. Every agent brief must have concrete, testable acceptance criteria. Each criterion should be independently verifiable.
+智能体需要知道何时完成。每个智能体简报必须有具体的、可测试的验收标准。每个标准应可独立验证。
 
-- **Good:** "Running `gh issue list --label needs-triage` returns issues that have been through initial classification"
-- **Bad:** "Triage should work correctly"
+- **好：** "运行 `gh issue list --label needs-triage` 返回已通过初始分类的 Issue"
+- **坏：** "分类应该正确工作"
 
-### Explicit scope boundaries
+### 明确的范围边界
 
-State what is out of scope. This prevents the agent from gold-plating or making assumptions about adjacent features.
+说明不在范围内的是什么。这防止智能体过度设计或对相邻功能做出假设。
 
-## Template
-
-```markdown
-## Agent Brief
-
-**Category:** bug / enhancement
-**Summary:** one-line description of what needs to happen
-
-**Current behavior:**
-Describe what happens now. For bugs, this is the broken behavior.
-For enhancements, this is the status quo the feature builds on.
-
-**Desired behavior:**
-Describe what should happen after the agent's work is complete.
-Be specific about edge cases and error conditions.
-
-**Key interfaces:**
-- `TypeName` — what needs to change and why
-- `functionName()` return type — what it currently returns vs what it should return
-- Config shape — any new configuration options needed
-
-**Acceptance criteria:**
-- [ ] Specific, testable criterion 1
-- [ ] Specific, testable criterion 2
-- [ ] Specific, testable criterion 3
-
-**Out of scope:**
-- Thing that should NOT be changed or addressed in this issue
-- Adjacent feature that might seem related but is separate
-```
-
-## Examples
-
-### Good agent brief (bug)
+## 模板
 
 ```markdown
-## Agent Brief
+## 智能体简报
 
-**Category:** bug
-**Summary:** Skill description truncation drops mid-word, producing broken output
+**类别：** bug / enhancement
+**摘要：** 需要发生什么的单行描述
 
-**Current behavior:**
-When a skill description exceeds 1024 characters, it is truncated at exactly
-1024 characters regardless of word boundaries. This produces descriptions
-that end mid-word (e.g. "Use when the user wants to confi").
+**当前行为：**
+描述现在发生什么。对于 bug，这是损坏的行为。
+对于增强，这是功能基于的现状。
 
-**Desired behavior:**
-Truncation should break at the last word boundary before 1024 characters
-and append "..." to indicate truncation.
+**期望行为：**
+描述在智能体工作完成后应该发生什么。
+对边缘情况和错误条件要具体。
 
-**Key interfaces:**
-- The `SkillMetadata` type's `description` field — no type change needed,
-  but the validation/processing logic that populates it needs to respect
-  word boundaries
-- Any function that reads SKILL.md frontmatter and extracts the description
+**关键接口：**
+- `TypeName` — 需要改变什么以及为什么
+- `functionName()` 返回类型 — 它当前返回什么 vs 应该返回什么
+- 配置形态 — 需要的新配置选项
 
-**Acceptance criteria:**
-- [ ] Descriptions under 1024 chars are unchanged
-- [ ] Descriptions over 1024 chars are truncated at the last word boundary
-      before 1024 chars
-- [ ] Truncated descriptions end with "..."
-- [ ] The total length including "..." does not exceed 1024 chars
+**验收标准：**
+- [ ] 具体的、可测试的标准 1
+- [ ] 具体的、可测试的标准 2
+- [ ] 具体的、可测试的标准 3
 
-**Out of scope:**
-- Changing the 1024 char limit itself
-- Multi-line description support
+**不在范围内：**
+- 不应在此 Issue 中更改或处理的事物
+- 可能看似相关但分离的相邻功能
 ```
 
-### Good agent brief (enhancement)
+## 示例
+
+### 好的智能体简报（bug）
 
 ```markdown
-## Agent Brief
+## 智能体简报
 
-**Category:** enhancement
-**Summary:** Add `.out-of-scope/` directory support for tracking rejected feature requests
+**类别：** bug
+**摘要：** 技能描述截断在单词中间断开，产生损坏的输出
 
-**Current behavior:**
-When a feature request is rejected, the issue is closed with a `wontfix` label
-and a comment. There is no persistent record of the decision or reasoning.
-Future similar requests require the maintainer to recall or search for the
-prior discussion.
+**当前行为：**
+当技能描述超过 1024 个字符时，它在正好 1024 个字符处被截断，
+不考虑单词边界。这产生的描述在单词中间结束
+（例如 "当用户想要 confi"）。
 
-**Desired behavior:**
-Rejected feature requests should be documented in `.out-of-scope/<concept>.md`
-files that capture the decision, reasoning, and links to all issues that
-requested the feature. When triaging new issues, these files should be
-checked for matches.
+**期望行为：**
+截断应在 1024 个字符之前的最后一个单词边界处断开
+并追加 "..." 表示截断。
 
-**Key interfaces:**
-- Markdown file format in `.out-of-scope/` — each file should have a
-  `# Concept Name` heading, a `**Decision:**` line, a `**Reason:**` line,
-  and a `**Prior requests:**` list with issue links
-- The triage workflow should read all `.out-of-scope/*.md` files early
-  and match incoming issues against them by concept similarity
+**关键接口：**
+- `SkillMetadata` 类型的 `description` 字段 — 不需要类型更改，
+  但填充它的验证/处理逻辑需要尊重单词边界
+- 任何读取 SKILL.md 前置元数据并提取描述的函数
 
-**Acceptance criteria:**
-- [ ] Closing a feature as wontfix creates/updates a file in `.out-of-scope/`
-- [ ] The file includes the decision, reasoning, and link to the closed issue
-- [ ] If a matching `.out-of-scope/` file already exists, the new issue is
-      appended to its "Prior requests" list rather than creating a duplicate
-- [ ] During triage, existing `.out-of-scope/` files are checked and surfaced
-      when a new issue matches a prior rejection
+**验收标准：**
+- [ ] 低于 1024 个字符的描述不变
+- [ ] 超过 1024 个字符的描述在 1024 个字符之前的最后一个单词边界处截断
+- [ ] 截断的描述以 "..." 结尾
+- [ ] 包括 "..." 的总长度不超过 1024 个字符
 
-**Out of scope:**
-- Automated matching (human confirms the match)
-- Reopening previously rejected features
-- Bug reports (only enhancement rejections go to `.out-of-scope/`)
+**不在范围内：**
+- 更改 1024 字符限制本身
+- 多行描述支持
 ```
 
-### Bad agent brief
+### 好的智能体简报（enhancement）
 
 ```markdown
-## Agent Brief
+## 智能体简报
 
-**Summary:** Fix the triage bug
+**类别：** enhancement
+**摘要：** 添加 `.out-of-scope/` 目录支持以跟踪被拒绝的功能请求
 
-**What to do:**
-The triage thing is broken. Look at the main file and fix it.
-The function around line 150 has the issue.
+**当前行为：**
+当功能请求被拒绝，Issue 以 `wontfix` 标签和一条评论关闭。
+没有持久记录决策或推理。
+未来的类似请求需要维护者回忆或搜索先前的讨论。
 
-**Files to change:**
-- src/triage/handler.ts (line 150)
-- src/types.ts (line 42)
+**期望行为：**
+被拒绝的功能请求应记录在 `.out-of-scope/<concept>.md` 文件中，
+捕获决策、推理和链接到所有请求了该功能的 Issue。
+在分类新 Issue 时，应检查这些文件以查找匹配。
+
+**关键接口：**
+- `.out-of-scope/` 中的 Markdown 文件格式 — 每个文件应有
+  `# 概念名称` 标题、`**决策：**` 行、`**原因：**` 行，
+  和带有 Issue 链接的 `**先前请求：**` 列表
+- 分类工作流应提前读取所有 `.out-of-scope/*.md` 文件
+  并按概念相似性匹配传入的 Issue
+
+**验收标准：**
+- [ ] 将功能关闭为 wontfix 在 `.out-of-scope/` 中创建/更新文件
+- [ ] 文件包括决策、推理和指向已关闭 Issue 的链接
+- [ ] 如果匹配的 `.out-of-scope/` 文件已存在，新 Issue 追加到其
+      "先前请求"列表而非创建重复项
+- [ ] 分类期间，检查现有 `.out-of-scope/` 文件，新 Issue 匹配先前拒绝时展示
+
+**不在范围内：**
+- 自动匹配（人类确认匹配）
+- 重新打开先前被拒绝的功能
+- Bug 报告（只有 enhancement 拒绝进入 `.out-of-scope/`）
 ```
 
-This is bad because:
-- No category
-- Vague description ("the triage thing is broken")
-- References file paths and line numbers that will go stale
-- No acceptance criteria
-- No scope boundaries
-- No description of current vs desired behavior
+### 坏的智能体简报
+
+```markdown
+## 智能体简报
+
+**摘要：** 修复分类 bug
+
+**做什么：**
+分类的东西坏了。查看主文件并修复它。
+第 150 行左右的函数有问题。
+
+**要更改的文件：**
+- src/triage/handler.ts（第 150 行）
+- src/types.ts（第 42 行）
+```
+
+这为什么不好：
+- 没有类别
+- 模糊的描述（"分类的东西坏了"）
+- 引用了会过时的文件路径和行号
+- 没有验收标准
+- 没有范围边界
+- 没有当前 vs 期望行为的描述

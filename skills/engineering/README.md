@@ -1,14 +1,14 @@
-# Engineering
+# 工程类
 
-Skills I use daily for code work.
+我每天用于编码工作的技能。
 
-- **[diagnose](./diagnose/SKILL.md)** — Disciplined diagnosis loop for hard bugs and performance regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test.
-- **[grill-with-docs](./grill-with-docs/SKILL.md)** — Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates `CONTEXT.md` and ADRs inline.
-- **[triage](./triage/SKILL.md)** — Triage issues through a state machine of triage roles.
-- **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)** — Find deepening opportunities in a codebase, informed by the domain language in `CONTEXT.md` and the decisions in `docs/adr/`.
-- **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)** — Scaffold the per-repo config (issue tracker, triage label vocabulary, domain doc layout) that the other engineering skills consume.
-- **[tdd](./tdd/SKILL.md)** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
-- **[to-issues](./to-issues/SKILL.md)** — Break any plan, spec, or PRD into independently-grabbable GitHub issues using vertical slices.
-- **[to-prd](./to-prd/SKILL.md)** — Turn the current conversation context into a PRD and submit it as a GitHub issue.
-- **[zoom-out](./zoom-out/SKILL.md)** — Tell the agent to zoom out and give broader context or a higher-level perspective on an unfamiliar section of code.
-- **[prototype](./prototype/SKILL.md)** — Build a throwaway prototype to flesh out a design — either a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+- **[diagnose](./diagnose/SKILL.md)** — 针对疑难 bug 和性能回归的规范化诊断循环：复现 → 最小化 → 假设 → 插桩 → 修复 → 回归测试。
+- **[grill-with-docs](./grill-with-docs/SKILL.md)** — 盘问会话，将你的计划与现有领域模型进行对质、精炼术语，并即时更新 `CONTEXT.md` 和 ADR。
+- **[triage](./triage/SKILL.md)** — 通过分类角色状态机对 Issue 进行分类处理。
+- **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)** — 在代码库中寻找深化机会，以 `CONTEXT.md` 中的领域语言和 `docs/adr/` 中的决策为指导。
+- **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)** — 搭建按仓库的配置（问题跟踪器、分类标签词汇、领域文档布局），供其他工程技能使用。
+- **[tdd](./tdd/SKILL.md)** — 带有红-绿-重构循环的测试驱动开发。一次一个垂直切片地构建功能或修复 bug。
+- **[to-issues](./to-issues/SKILL.md)** — 将任何计划、规格或 PRD 拆分为可使用垂直切片独立认领的 GitHub Issue。
+- **[to-prd](./to-prd/SKILL.md)** — 将当前对话上下文转换为 PRD 并作为 GitHub Issue 提交。
+- **[zoom-out](./zoom-out/SKILL.md)** — 告诉智能体放远视野，为不熟悉的代码段提供更广泛的上下文。
+- **[prototype](./prototype/SKILL.md)** — 构建一个一次性原型来充实设计——要么是可运行的终端应用，要么是可通过路由切换的多个 UI 变体。
